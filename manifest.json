@@ -1,0 +1,7 @@
+{
+    "domain": "motion_eye",
+    "name": "Motion Eye",
+    "documentation": "https://www.technicallywizardry.com/",
+    "codeowners": [],
+    "config_flow": true
+  }
