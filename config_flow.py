@@ -19,6 +19,11 @@ from homeassistant.const import (CONF_ID, CONF_HOSTS, CONF_URL, CONF_AUTHENTICAT
 
 _LOGGER = logging.getLogger(__name__)
 
+@callback
+def configured_instances(hass):
+    """Return a set of configured MotionEye instances."""
+    return {entry.title for entry in hass.config_entries.async_entries(DOMAIN)}
+
 @config_entries.HANDLERS.register(DOMAIN)
 class MotionEyeConfigFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow for MotionEye."""
