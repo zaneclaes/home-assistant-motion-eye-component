@@ -76,12 +76,14 @@ class MotionEye():
     # Perform a GET request.
     async def get(self, path, qps = {}):
         url = self._url + self.sign('GET', path, qps)
+        _LOGGER.info(f'MotionEye API GET: {url}')
         future = asyncio.get_event_loop().run_in_executor(None, self._session.get, url)
         return await self._decode_response(future)
 
     # Perform a POST request.
     async def post(self, path, body=None, qps = {}):
         url = self._url + self.sign('POST', path, qps, body)
+        _LOGGER.info(f'MotionEye API POST: {url}')
         future = asyncio.get_event_loop().run_in_executor(None, self._session.post, url, body)
         return await self._decode_response(future)
 
