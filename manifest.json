@@ -1,7 +1,7 @@
 {
     "domain": "motion_eye",
     "name": "Motion Eye",
-    "documentation": "https://www.technicallywizardry.com/",
+    "documentation": "https://www.technicallywizardry.com/pan-tilt-zoom-security-camera/",
     "codeowners": [],
     "config_flow": true
   }

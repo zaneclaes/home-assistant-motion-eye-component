@@ -1,0 +1,9 @@
+{
+  "name": "MotionEye",
+  "content_in_root": true,
+  "iot_class": "Local Polling",
+  "render_readme": true,
+  "domains": [
+    "camera"
+  ]
+}
