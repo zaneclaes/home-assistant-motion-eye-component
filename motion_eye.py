@@ -63,7 +63,7 @@ class MotionEye():
         """Load the cameras from MotionEye"""
         _LOGGER.info(f'Connecting to MotionEye at {self._host}')
         res = await self.get('/config/list/')
-        cameras = res['cameras'] or []
+        cameras = res['cameras'] if res and 'cameras' in res else []
         self._cameras = {}
         for cam in cameras:
             self._cameras[cam['id']] = cam
@@ -78,14 +78,25 @@ class MotionEye():
         url = self._url + self.sign('GET', path, qps)
         future = asyncio.get_event_loop().run_in_executor(None, self._session.get, url)
         res = await future
-        return res.json()
+        return self._decode_response(res)
 
     # Perform a POST request.
     async def post(self, path, body=None, qps = {}):
         url = self._url + self.sign('POST', path, qps, body)
         future = asyncio.get_event_loop().run_in_executor(None, self._session.post, url, body)
         res = await future
-        return res.json()
+        return self._decode_response(res)
+
+    # Responses should be JSON. If not, or not successful, throw an error.
+    def _decode_response(self, res):
+        if res.status_code != 200:
+            _LOGGER.error(f'MotionEye API was unsuccessful [{res.status_code}]: {res.text}')
+            return None
+        try:
+            return res.json()
+        except simplejson.errors.JSONDecodeError:
+            _LOGGER.error(f'MotionEye API returned non-JSON data [{res.status_code}]: {res.text}')
+            return None
 
     # Public method for turning a path into a signed path (for making authenticated requests).
     # @return a string representing the path
