@@ -16,12 +16,16 @@ The component can be installed via the Home Assistant UI.
 ```
 motion_eye:
   hosts:
-    - url: "http://motion-eye.local:8765"
+    - url: "http://motion-eye.local"
       username: !secret motion_username
       password: !secret motion_password
 ```
 
-Upon restart, Home Assistant will automatically create `camera` entities for each camera found at `http://motion-eye.local:8765` with the appropriate MotionEye camera name.  Each camera entity will contain all of the MotionEye camera attributes.
+Upon restart, Home Assistant will automatically create `camera` entities for each camera found at `http://motion-eye.local` with the appropriate MotionEye camera name.  Each camera entity will contain all of the MotionEye camera attributes.
+
+**Example**: A Raspberry Pi with _MotionEyeOS_ installed will have a web UI on port 80. I have multiple Raspberry Pi Zero Ws, and I just add each as a separate integration to Home Assistant. Their configuration URLs are `http://192.168.0.161`, etc.
+
+If you're trying to connect to a MotionEye instance between Docker containers (or Kubernetes pods), you need to make sure that the Home Assistant instance can access the target URL. For example, you should be able to to `curl http://192.168.0.161`. I happen to run Kubernetes for all of my home automation, so I actually use the URL `http://motion.home.svc.cluster.local:8765` for one of my integrations.
 
 ## Using the Components
 
