@@ -25,7 +25,13 @@ Upon restart, Home Assistant will automatically create `camera` entities for eac
 
 **Example**: A Raspberry Pi with _MotionEyeOS_ installed will have a web UI on port 80. I have multiple Raspberry Pi Zero Ws, and I just add each as a separate integration to Home Assistant. Their configuration URLs are `http://192.168.0.161`, etc.
 
-If you're trying to connect to a MotionEye instance between Docker containers (or Kubernetes pods), you need to make sure that the Home Assistant instance can access the target URL. For example, you should be able to to `curl http://192.168.0.161`. I happen to run Kubernetes for all of my home automation, so I actually use the URL `http://motion.home.svc.cluster.local:8765` for one of my integrations.
+If you're trying to connect to a MotionEye instance between Docker containers (or Kubernetes pods), you need to make sure that the Home Assistant instance can access the target URL. For example, you should be able to `curl http://192.168.0.161` from Home Assistant. I happen to run Kubernetes for all of my home automation, so I actually use the URL `http://motion.home.svc.cluster.local:8765` for one of my integrations. If you use Ingress, you might have a path after the domain name.
+
+**When in doubt** you can use your browser's "Network Inspector" feature while using MotionEye.
+
+![network inspector](https://content.technicallywizardry.com/2020/07/15122339/Screen-Shot-2020-07-15-at-6.22.13-AM-1024x519.jpg)
+
+In the above screenshot, the correct configuration URL would be https://cameras.snowy-cabin.com. When running Ingress, I have seen configuration URLs like `http://192.168.0.14:8123/api/hassio_ingress/7BYKXJ640FS5Ko-o5D9Sq8ZYBo5B7XzFbSUcPSxL-yQ`.
 
 ## Using the Components
 

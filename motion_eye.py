@@ -27,7 +27,8 @@ class MotionEye():
         self._cameras = {}
         o = urlparse.urlparse(self._url)
         self._host = o.scheme + '://' + o.hostname
-        _LOGGER.info(f"step motion created API {self.unique_id} -> {self._host}")
+        self._path = o.path
+        _LOGGER.info(f"step motion created API {self.unique_id} -> {self._host} {self._path}")
 
     @property
     def unique_id(self):
@@ -112,6 +113,7 @@ class MotionEye():
     # Copied from MotionEye backend.
     # c.f. https://github.com/ccrisan/motioneye/blob/3b9d110d09369e4520f03126977eb81a606393df/motioneye/utils.py#L668
     def _compute_signature(self, method, path, body = None):
+        path = self._path + path
         if not '_username=' in path:
             if not '?' in path: path += '?'
             else: path += '&'
