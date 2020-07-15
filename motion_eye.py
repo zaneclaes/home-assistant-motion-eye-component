@@ -91,6 +91,7 @@ class MotionEye():
     async def _decode_response(self, future):
         try:
             res = await future
+            _LOGGER.info(f'MotionEye API Response [{res.status_code}]: {res.text}')
             if res.status_code != 200:
                 _LOGGER.error(f'MotionEye API was unsuccessful [{res.status_code}]: {res.text}')
                 return None
