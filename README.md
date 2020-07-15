@@ -23,15 +23,17 @@ motion_eye:
 
 Upon restart, Home Assistant will automatically create `camera` entities for each camera found at `http://motion-eye.local` with the appropriate MotionEye camera name.  Each camera entity will contain all of the MotionEye camera attributes.
 
-**Example**: A Raspberry Pi with _MotionEyeOS_ installed will have a web UI on port 80. I have multiple Raspberry Pi Zero Ws, and I just add each as a separate integration to Home Assistant. Their configuration URLs are `http://192.168.0.161`, etc.
+Examples:
 
-If you're trying to connect to a MotionEye instance between Docker containers (or Kubernetes pods), you need to make sure that the Home Assistant instance can access the target URL. For example, you should be able to `curl http://192.168.0.161` from Home Assistant. I happen to run Kubernetes for all of my home automation, so I actually use the URL `http://motion.home.svc.cluster.local:8765` for one of my integrations. If you use Ingress, you might have a path after the domain name.
+* **MotionEyeOS**: A Raspberry Pi with _MotionEyeOS_ installed will have a web UI on port 80. I have multiple Raspberry Pi Zero Ws, and I just add each as a separate integration to Home Assistant. Their configuration URLs are `http://192.168.0.161`, etc.
+* **MotionEye Add-On (Supervisor)**: The easiest approach is to tweak the HA add-on configuration to allow access. From the `Configuration` tab in the `Network` section, choose a host port, say, 8081. After restarting, you should be able to access the MotionEye UI using the static IP of your Home Assistant device and the port you have chosen. For example, `http://192.168.0.100:8081` (note I used the IP and not `homeassistant.local`). This is the correct `url` setting.
+* **Docker/Kubernetes**: If you're trying to connect to a MotionEye instance between Docker containers (or Kubernetes pods), you need to make sure that the Home Assistant instance can access the target URL. I happen to run Kubernetes for all of my home automation, so I actually use the URL `http://motion.home.svc.cluster.local:8765` for one of my integrations, as this is the syntax for intra-service DNS lookups.
 
 **When in doubt** you can use your browser's "Network Inspector" feature while using MotionEye.
 
 ![network inspector](https://content.technicallywizardry.com/2020/07/15122339/Screen-Shot-2020-07-15-at-6.22.13-AM-1024x519.jpg)
 
-In the above screenshot, the correct configuration URL would be https://cameras.snowy-cabin.com. When running Ingress, I have seen configuration URLs like `http://192.168.0.14:8123/api/hassio_ingress/7BYKXJ640FS5Ko-o5D9Sq8ZYBo5B7XzFbSUcPSxL-yQ`.
+In the above screenshot, the correct configuration URL would be `https://cameras.snowy-cabin.com` (everything before the `/picture`...)
 
 ## Using the Components
 
