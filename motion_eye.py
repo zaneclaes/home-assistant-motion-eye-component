@@ -104,8 +104,8 @@ class MotionEye():
     # Public method for turning a path into a signed path (for making authenticated requests).
     # @return a string representing the path
     def sign(self, method, path, qps = {}, body = None):
-        qps['_username'] = self._username
         qps['_'] = int(time.time())
+        qps['_username'] = self._username
         path += '?' + '&'.join([f'{x}={qps[x]}' for x in qps])
         path += '&_signature=' + self._compute_signature(method, path, body)
         return path
@@ -113,11 +113,11 @@ class MotionEye():
     # Copied from MotionEye backend.
     # c.f. https://github.com/ccrisan/motioneye/blob/3b9d110d09369e4520f03126977eb81a606393df/motioneye/utils.py#L668
     def _compute_signature(self, method, path, body = None):
-        path = self._path + path
         if not '_username=' in path:
             if not '?' in path: path += '?'
             else: path += '&'
             path += f'_username={self._username}'
+        _LOGGER.info(f'MotionEye API signing "{method}" "{path}"')
         key = self._pwhash
         parts = list(urlparse.urlsplit(path))
         query = [q for q in urlparse.parse_qsl(parts[3], keep_blank_values=True) if (q[0] != '_signature')]
